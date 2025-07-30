@@ -2,6 +2,7 @@ package net.lab1024.sa.admin.module.system.employee.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import net.lab1024.sa.admin.module.flow.domain.vo.WarmFlowInteractiveTypeVO;
 import net.lab1024.sa.admin.module.system.employee.domain.entity.EmployeeEntity;
 import net.lab1024.sa.admin.module.system.employee.domain.form.EmployeeQueryForm;
 import net.lab1024.sa.admin.module.system.employee.domain.vo.EmployeeVO;
@@ -107,5 +108,9 @@ public interface EmployeeDao extends BaseMapper<EmployeeEntity> {
      * 员工重置密码
      */
     Integer updatePassword(@Param("employeeId") Long employeeId, @Param("password") String password);
+
+    Page<EmployeeEntity> selectUserPage(@Param("page") Page<EmployeeEntity> page, @Param("warmFlowInteractiveTypeVo") WarmFlowInteractiveTypeVO warmFlowInteractiveTypeVo);
+
+    Page<EmployeeEntity> selectNotUserPage(@Param("page") Page<EmployeeEntity> page, @Param("warmFlowInteractiveTypeVo") WarmFlowInteractiveTypeVO warmFlowInteractiveTypeVo);
 
 }

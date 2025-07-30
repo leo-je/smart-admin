@@ -9,12 +9,14 @@
  */
 import { homeRouters } from './system/home';
 import { loginRouters } from './system/login';
+import { flowRouters } from './flow/flow';
 import { helpDocRouters } from './support/help-doc';
 import NotFound from '/@/views/system/40X/404.vue';
 import NoPrivilege from '/@/views/system/40X/403.vue';
 
 export const routerArray = [
     ...loginRouters,
+    ...flowRouters,
      ...homeRouters, 
     ...helpDocRouters, 
     { path: '/:pathMatch(.*)*', name: '404', component: NotFound },

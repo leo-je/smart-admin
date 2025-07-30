@@ -1,17 +1,21 @@
 package net.lab1024.sa.admin.module.system.department.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
 import net.lab1024.sa.admin.module.system.department.dao.DepartmentDao;
 import net.lab1024.sa.admin.module.system.department.domain.entity.DepartmentEntity;
 import net.lab1024.sa.admin.module.system.department.domain.form.DepartmentAddForm;
+import net.lab1024.sa.admin.module.system.department.domain.form.DepartmentQueryForm;
 import net.lab1024.sa.admin.module.system.department.domain.form.DepartmentUpdateForm;
 import net.lab1024.sa.admin.module.system.department.domain.vo.DepartmentTreeVO;
 import net.lab1024.sa.admin.module.system.department.domain.vo.DepartmentVO;
 import net.lab1024.sa.admin.module.system.department.manager.DepartmentCacheManager;
 import net.lab1024.sa.admin.module.system.employee.dao.EmployeeDao;
 import net.lab1024.sa.base.common.code.UserErrorCode;
+import net.lab1024.sa.base.common.domain.PageResult;
 import net.lab1024.sa.base.common.domain.ResponseDTO;
 import net.lab1024.sa.base.common.util.SmartBeanUtil;
+import net.lab1024.sa.base.common.util.SmartPageUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -104,6 +108,18 @@ public class DepartmentService {
     }
 
     // ---------------------------- 查询 ----------------------------
+    /**
+     * 分页查询
+     *
+     * @param queryForm
+     * @return
+     */
+    public PageResult<DepartmentVO> queryPage(DepartmentQueryForm queryForm) {
+        Page<?> page = SmartPageUtil.convert2PageQuery(queryForm);
+        List<DepartmentVO> list = departmentDao.queryPage(page, queryForm);
+        PageResult<DepartmentVO> pageResult = SmartPageUtil.convert2PageResult(page, list);
+        return pageResult;
+    }
 
     /**
      * 获取部门树形结构

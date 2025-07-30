@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import jakarta.annotation.Resource;
+import net.lab1024.sa.admin.module.flow.domain.vo.WarmFlowInteractiveTypeVO;
 import net.lab1024.sa.admin.module.system.department.dao.DepartmentDao;
 import net.lab1024.sa.admin.module.system.department.domain.entity.DepartmentEntity;
 import net.lab1024.sa.admin.module.system.department.domain.vo.DepartmentVO;
@@ -114,6 +115,45 @@ public class EmployeeService {
         });
         PageResult<EmployeeVO> pageResult = SmartPageUtil.convert2PageResult(pageParam, employeeList);
         return ResponseDTO.ok(pageResult);
+    }
+
+    /**
+     * 查询员工列表
+     */
+    public PageResult<EmployeeVO> queryEmployeePage(EmployeeQueryForm employeeQueryForm) {
+        employeeQueryForm.setDeletedFlag(false);
+        Page pageParam = SmartPageUtil.convert2PageQuery(employeeQueryForm);
+
+        List<Long> departmentIdList = new ArrayList<>();
+        if (employeeQueryForm.getDepartmentId() != null) {
+            departmentIdList.addAll(departmentService.selfAndChildrenIdList(employeeQueryForm.getDepartmentId()));
+        }
+
+        List<EmployeeVO> employeeList = employeeDao.queryEmployee(pageParam, employeeQueryForm, departmentIdList);
+        if (CollectionUtils.isEmpty(employeeList)) {
+            PageResult<EmployeeVO> pageResult = SmartPageUtil.convert2PageResult(pageParam, employeeList);
+            return pageResult;
+        }
+
+        // 查询员工角色
+        List<Long> employeeIdList = employeeList.stream().map(EmployeeVO::getEmployeeId).collect(Collectors.toList());
+        List<RoleEmployeeVO> roleEmployeeEntityList = employeeIdList.isEmpty() ? Collections.emptyList() : roleEmployeeDao.selectRoleByEmployeeIdList(employeeIdList);
+        Map<Long, List<Long>> employeeRoleIdListMap = roleEmployeeEntityList.stream().collect(Collectors.groupingBy(RoleEmployeeVO::getEmployeeId, Collectors.mapping(RoleEmployeeVO::getRoleId, Collectors.toList())));
+        Map<Long, List<String>> employeeRoleNameListMap = roleEmployeeEntityList.stream().collect(Collectors.groupingBy(RoleEmployeeVO::getEmployeeId, Collectors.mapping(RoleEmployeeVO::getRoleName, Collectors.toList())));
+
+        // 查询员工职位
+        List<Long> positionIdList = employeeList.stream().map(EmployeeVO::getPositionId).filter(Objects::nonNull).collect(Collectors.toList());
+        List<PositionEntity> positionEntityList = positionIdList.isEmpty() ? Collections.emptyList() : positionDao.selectBatchIds(positionIdList);
+        Map<Long, String> positionNameMap = positionEntityList.stream().collect(Collectors.toMap(PositionEntity::getPositionId, PositionEntity::getPositionName));
+
+        employeeList.forEach(e -> {
+            e.setRoleIdList(employeeRoleIdListMap.getOrDefault(e.getEmployeeId(), Lists.newArrayList()));
+            e.setRoleNameList(employeeRoleNameListMap.getOrDefault(e.getEmployeeId(), Lists.newArrayList()));
+            e.setDepartmentName(departmentService.getDepartmentPath(e.getDepartmentId()));
+            e.setPositionName(positionNameMap.get(e.getPositionId()));
+        });
+        PageResult<EmployeeVO> pageResult = SmartPageUtil.convert2PageResult(pageParam, employeeList);
+        return pageResult;
     }
 
     /**
@@ -426,4 +466,23 @@ public class EmployeeService {
         return employeeDao.getByLoginName(loginName, false);
     }
 
+    /**
+     * 根据条件分页查询不等于用户列表的所有用户
+     *
+     * @param warmFlowInteractiveTypeVo 用户编号集合
+     * @return 用户信息集合信息
+     */
+    public Page<EmployeeEntity> selectNotUserList(Page<EmployeeEntity> page, WarmFlowInteractiveTypeVO warmFlowInteractiveTypeVo){
+        return employeeDao.selectNotUserPage(page, warmFlowInteractiveTypeVo);
+    }
+
+    /**
+     * 根据条件分页查询不等于用户列表的所有用户
+     *
+     * @param warmFlowInteractiveTypeVo 用户编号集合
+     * @return 用户信息集合信息
+     */
+    public Page<EmployeeEntity> selectUserList(Page<EmployeeEntity> page, WarmFlowInteractiveTypeVO warmFlowInteractiveTypeVo){
+        return employeeDao.selectUserPage(page, warmFlowInteractiveTypeVo);
+    }
 }

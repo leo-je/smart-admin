@@ -3,6 +3,8 @@ package net.lab1024.sa.admin.module.system.role.domain.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * 角色
  *
@@ -26,4 +28,10 @@ public class RoleVO {
 
     @Schema(description = "角色备注")
     private String remark;
+
+    /**
+     * 创建时间
+     */
+    @Schema(description = "创建时间")
+    private LocalDateTime createTime;
 }

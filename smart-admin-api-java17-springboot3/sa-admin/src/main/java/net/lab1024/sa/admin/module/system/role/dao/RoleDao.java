@@ -1,10 +1,15 @@
 package net.lab1024.sa.admin.module.system.role.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import net.lab1024.sa.admin.module.system.role.domain.form.RoleQueryForm;
+import net.lab1024.sa.admin.module.system.role.domain.vo.RoleVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import net.lab1024.sa.admin.module.system.role.domain.entity.RoleEntity;
+
+import java.util.List;
 
 /**
  * 角色 dao
@@ -27,4 +32,14 @@ public interface RoleDao extends BaseMapper<RoleEntity> {
      * 根据角色编码
      */
     RoleEntity getByRoleCode(@Param("roleCode") String roleCode);
+
+    /**
+     * 分页 查询
+     *
+     * @param page
+     * @param queryForm
+     * @return
+     */
+    List<RoleVO> queryPage(Page page, @Param("queryForm") RoleQueryForm queryForm);
+
 }

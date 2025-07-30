@@ -29,13 +29,16 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(adminInterceptor)
                 .excludePathPatterns(SwaggerConfig.SWAGGER_WHITELIST)
-                .addPathPatterns("/**");
+                .addPathPatterns("/**")
+                // 以上是sa-token案例，下面才是需要排除的地址
+                .excludePathPatterns("/warm-flow-ui/**", "/warm-flow/**");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/warm-flow-ui/**").addResourceLocations("classpath:/META-INF/resources/warm-flow-ui/");;
     }
 
 }

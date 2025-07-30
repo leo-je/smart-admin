@@ -1,16 +1,20 @@
 package net.lab1024.sa.admin.module.system.role.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.annotation.Resource;
 import net.lab1024.sa.admin.module.system.role.dao.RoleDao;
 import net.lab1024.sa.admin.module.system.role.dao.RoleEmployeeDao;
 import net.lab1024.sa.admin.module.system.role.dao.RoleMenuDao;
 import net.lab1024.sa.admin.module.system.role.domain.entity.RoleEntity;
 import net.lab1024.sa.admin.module.system.role.domain.form.RoleAddForm;
+import net.lab1024.sa.admin.module.system.role.domain.form.RoleQueryForm;
 import net.lab1024.sa.admin.module.system.role.domain.form.RoleUpdateForm;
 import net.lab1024.sa.admin.module.system.role.domain.vo.RoleVO;
 import net.lab1024.sa.base.common.code.UserErrorCode;
+import net.lab1024.sa.base.common.domain.PageResult;
 import net.lab1024.sa.base.common.domain.ResponseDTO;
 import net.lab1024.sa.base.common.util.SmartBeanUtil;
+import net.lab1024.sa.base.common.util.SmartPageUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +40,19 @@ public class RoleService {
 
     @Resource
     private RoleEmployeeDao roleEmployeeDao;
+
+    /**
+     * 分页查询
+     *
+     * @param queryForm
+     * @return
+     */
+    public PageResult<RoleVO> queryPage(RoleQueryForm queryForm) {
+        Page<?> page = SmartPageUtil.convert2PageQuery(queryForm);
+        List<RoleVO> list = roleDao.queryPage(page, queryForm);
+        PageResult<RoleVO> pageResult = SmartPageUtil.convert2PageResult(page, list);
+        return pageResult;
+    }
 
     /**
      * 新增添加角色

@@ -55,6 +55,7 @@
         <snakeyaml.version>2.2</snakeyaml.version>
         <freemarker.version>2.3.33</freemarker.version>
         <jsoup.version>1.18.1</jsoup.version>
+        <warm-flow.version>1.7.3</warm-flow.version>
         <tika.version>3.1.0</tika.version>
     </properties>
 
@@ -314,6 +315,19 @@
                 <artifactId>freemarker</artifactId>
                 <version>${freemarker.version}</version>
             </dependency>
+
+            <!-- warm-flow-mybatis-plus-sb3-starter -->
+            <dependency>
+                <groupId>org.dromara.warm</groupId>
+                <artifactId>warm-flow-mybatis-plus-sb3-starter</artifactId>
+                <version>${warm-flow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.warm</groupId>
+                <artifactId>warm-flow-plugin-ui-sb-web</artifactId>
+                <version>${warm-flow.version}</version>
+            </dependency>
+            <!-- warm-flow-mybatis-plus-sb3-starter end -->
 
             <dependency>
                 <groupId>org.apache.tika</groupId>

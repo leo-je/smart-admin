@@ -55,5 +55,11 @@ public class AdminSwaggerTagConst extends SwaggerTagConst {
 
     }
 
+    public static class Flow {
 
+        public static final String FLOW_DEFINITION = "工作流-流程定义";
+
+        public static final String FLOW_INSTANCE = "工作流-流程实例";
+
+    }
 }

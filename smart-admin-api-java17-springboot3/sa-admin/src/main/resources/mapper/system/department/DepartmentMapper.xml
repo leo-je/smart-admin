@@ -30,5 +30,24 @@
         where t_department.department_id = #{departmentId}
     </select>
 
+    <!-- 分页查询 -->
+    <select id="queryPage" resultType="net.lab1024.sa.admin.module.system.department.domain.vo.DepartmentVO">
+        SELECT
+        *
+        FROM t_department
+        <where>
+            <!--关键字查询-->
+            <if test="queryForm.name != null and queryForm.name != ''">
+                INSTR(t_department.name,#{queryForm.name})
+            </if>
+            <if test="queryForm.startTime != null">
+                AND DATE_FORMAT(t_department.create_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{queryForm.startTime},
+                '%Y-%m-%d')
+            </if>
+            <if test="queryForm.endTime != null">
+                AND DATE_FORMAT(t_department.create_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{queryForm.endTime}, '%Y-%m-%d')
+            </if>
+        </where>
+    </select>
 
 </mapper>

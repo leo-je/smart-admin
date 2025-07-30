@@ -6,6 +6,7 @@ import lombok.Data;
 import net.lab1024.sa.base.common.domain.PageParam;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -26,6 +27,13 @@ public class EmployeeQueryForm extends PageParam {
 
     @Schema(description = "部门id")
     private Long departmentId;
+
+    @Schema(description = "开始时间")
+    private LocalDate startTime;
+
+    @Schema(description = "结束时间")
+    private LocalDate endTime;
+
 
     @Schema(description = "是否禁用")
     private Boolean disabledFlag;

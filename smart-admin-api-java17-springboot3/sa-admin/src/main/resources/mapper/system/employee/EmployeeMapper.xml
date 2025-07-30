@@ -197,4 +197,100 @@
         WHERE employee_id = #{employeeId}
     </update>
 
+    <select id="selectNotUserPage" parameterType="net.lab1024.sa.admin.module.flow.domain.vo.WarmFlowInteractiveTypeVO" resultType="net.lab1024.sa.admin.module.system.employee.domain.entity.EmployeeEntity">
+        SELECT
+        e.employee_id,
+        e.login_name,
+        e.actual_name,
+        e.avatar,
+        e.gender,
+        e.phone,
+        e.department_id,
+        e.position_id,
+        e.email,
+        e.disabled_flag,
+        e.deleted_flag,
+        e.administrator_flag,
+        e.remark,
+        e.update_time,
+        e.create_time,
+        d.name AS dept_name,  -- 假设部门表有 department_name 字段
+        d.manager_id
+        FROM t_employee e
+        LEFT JOIN t_department d ON e.department_id = d.department_id
+        WHERE
+        e.deleted_flag = 0  -- 未删除
+        <if test="warmFlowInteractiveTypeVo.userIds != null and warmFlowInteractiveTypeVo.userIds.size() > 0">
+            AND e.employee_id not in
+            <foreach collection="warmFlowInteractiveTypeVo.userIds" item="userId" open="(" separator="," close=")">
+                #{userId}
+            </foreach>
+        </if>
+        <if test="warmFlowInteractiveTypeVo.departmentId != null and warmFlowInteractiveTypeVo.departmentId != 0">
+            AND (
+            e.department_id = #{warmFlowInteractiveTypeVo.departmentId}
+            OR e.department_id IN (
+            WITH RECURSIVE dept_tree AS (
+            SELECT department_id FROM t_department WHERE department_id = #{warmFlowInteractiveTypeVo.departmentId}
+            UNION ALL
+            SELECT child.department_id
+            FROM t_department child
+            INNER JOIN dept_tree parent ON child.parent_id = parent.department_id
+            )
+            SELECT department_id FROM dept_tree
+            )
+            )
+        </if>
+        <!-- 数据范围过滤 -->
+        ${warmFlowInteractiveTypeVo.params.dataScope}
+    </select>
+
+    <select id="selectUserPage" parameterType="net.lab1024.sa.admin.module.flow.domain.vo.WarmFlowInteractiveTypeVO" resultType="net.lab1024.sa.admin.module.system.employee.domain.entity.EmployeeEntity">
+        SELECT
+        e.employee_id,
+        e.login_name,
+        e.actual_name,
+        e.avatar,
+        e.gender,
+        e.phone,
+        e.department_id,
+        e.position_id,
+        e.email,
+        e.disabled_flag,
+        e.deleted_flag,
+        e.administrator_flag,
+        e.remark,
+        e.update_time,
+        e.create_time,
+        d.name AS dept_name,  -- 假设部门表有 department_name 字段
+        d.manager_id
+        FROM t_employee e
+        LEFT JOIN t_department d ON e.department_id = d.department_id
+        WHERE
+        e.deleted_flag = 0  -- 未删除
+        <if test="warmFlowInteractiveTypeVo.userIds != null and warmFlowInteractiveTypeVo.userIds.size() > 0">
+            AND e.employee_id in
+            <foreach collection="warmFlowInteractiveTypeVo.userIds" item="userId" open="(" separator="," close=")">
+                #{userId}
+            </foreach>
+        </if>
+        <if test="warmFlowInteractiveTypeVo.departmentId != null and warmFlowInteractiveTypeVo.departmentId != 0">
+            AND (
+            e.department_id = #{warmFlowInteractiveTypeVo.departmentId}
+            OR e.department_id IN (
+            WITH RECURSIVE dept_tree AS (
+            SELECT department_id FROM t_department WHERE department_id = #{warmFlowInteractiveTypeVo.departmentId}
+            UNION ALL
+            SELECT child.department_id
+            FROM t_department child
+            INNER JOIN dept_tree parent ON child.parent_id = parent.department_id
+            )
+            SELECT department_id FROM dept_tree
+            )
+            )
+        </if>
+        <!-- 数据范围过滤 -->
+        ${warmFlowInteractiveTypeVo.params.dataScope}
+    </select>
+
 </mapper>

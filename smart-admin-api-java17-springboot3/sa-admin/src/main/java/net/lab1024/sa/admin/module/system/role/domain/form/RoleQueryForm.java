@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import net.lab1024.sa.base.common.domain.PageParam;
 
+import java.time.LocalDate;
+
 /**
  * 角色 查询
  *
@@ -16,9 +18,18 @@ import net.lab1024.sa.base.common.domain.PageParam;
 @Data
 public class RoleQueryForm extends PageParam {
 
+    @Schema(description = "角色code")
+    private String roleCode;
+
     @Schema(description = "角色名称")
     private String roleName;
 
     @Schema(description = "角色id")
     private String roleId;
+
+    @Schema(description = "开始时间")
+    private LocalDate startTime;
+
+    @Schema(description = "结束时间")
+    private LocalDate endTime;
 }
