@@ -19,7 +19,7 @@
 </template>
 <script setup name="flowDoneList" lang="ts">
 import { onMounted,reactive, ref } from 'vue';
-import { instanceApi} from "/@/api/flow/instance-api.js";
+import { instanceApi} from "../../../../api/flow/instance-api.js";
 import { smartSentry } from '/@/lib/smart-sentry';
 const props = defineProps({
   instanceId: String,

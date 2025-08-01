@@ -86,7 +86,7 @@
   import _ from 'lodash';
   import { computed,reactive, ref, watch } from 'vue';
   import { employeeApi } from '/@/api/system/employee-api';
-  import { instanceApi} from "/@/api/flow/instance-api.js";
+  import { instanceApi} from "../../../../api/flow/instance-api.js";
   import { PAGE_SIZE } from '/@/constants/common-const';
   import { PAGE_SIZE_OPTIONS, showTableTotal } from '/@/constants/common-const';
   import { smartSentry } from '/@/lib/smart-sentry';

@@ -131,7 +131,7 @@ smartAxios.interceptors.response.use(
 /**
  * get请求
  */
-export const getRequest = (url, params) => {
+export const getRequest = (url, params:any = null) => {
   return request({ url, method: 'get', params });
 };
 

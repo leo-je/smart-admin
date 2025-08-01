@@ -151,8 +151,8 @@ import {reactive, ref, shallowRef, markRaw, onMounted, defineAsyncComponent, nex
 import { Modal, message } from 'ant-design-vue';
 import { SearchOutlined, ReloadOutlined } from '@ant-design/icons-vue';
 import selectUser from '/@/views/flow/components/select-user.vue';
-import {instanceApi} from "/@/api/flow/instance-api.js";
-import {definitionApi} from "/@/api/flow/definition-api.js";
+import {instanceApi} from "../../../../api/flow/instance-api.js";
+import {definitionApi} from "../../../../api/flow/definition-api.js";
 import SmartEnumSelect from "/@/components/framework/smart-enum-select/index.vue";
 import flowDoneList from "/@/views/flow/components/flow-done/index.vue"
 import {defaultTimeRanges} from "/@/lib/default-time-ranges.js";

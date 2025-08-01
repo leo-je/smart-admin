@@ -108,7 +108,7 @@
   import _ from 'lodash';
   import { message } from 'ant-design-vue';
   import { SmartLoading } from '/@/components/framework/smart-loading';
-  import { definitionApi } from '/@/api/flow/definition-api';
+  import { definitionApi } from '../../../api/flow/definition-api';
   import { smartSentry } from '/@/lib/smart-sentry';
 
   // ------------------------ 事件 ------------------------

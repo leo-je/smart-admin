@@ -136,9 +136,15 @@ public class DataSourceConfig {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
         factoryBean.setDataSource(druidDataSource());
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources("classpath*:/mapper/**/*.xml");
+        List<Resource> resourceList = new ArrayList<>();
+        String[] locationPatterns = new String[]{"classpath*:/mapper/**/*.xml",
+                "classpath*:net/lab1024/**/mapper/*Mapper.xml",
+                "classpath*:com/je/**/mapper/*Mapper.xml"};
+        for (String locationPattern : locationPatterns) {
+            resourceList.addAll(List.of(resolver.getResources(locationPattern)));
+        }
+        Resource[] resources = resourceList.toArray(new Resource[0]);
         factoryBean.setMapperLocations(resources);
-
         // 设置 MyBatis-Plus 分页插件 注意此处myBatisPlugin一定要放在后面
         List<Interceptor> pluginsList = new ArrayList<>();
         pluginsList.add(paginationInterceptor);

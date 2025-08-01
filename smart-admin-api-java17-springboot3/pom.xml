@@ -13,6 +13,7 @@
 	<modules>
         <module>sa-base</module>
 		<module>sa-admin</module>
+        <module>je-extend</module>
     </modules>
 
     <properties>
@@ -368,6 +369,14 @@
                     <include>*.*</include>
                 </includes>
             </resource>
+
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*Mapper.xml</include>
+                </includes>
+            </resource>
+
         </resources>
 
         <plugins>

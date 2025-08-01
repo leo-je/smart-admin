@@ -36,6 +36,13 @@ import '/@/utils/ployfill';
 import { useDictStore } from '/@/store/modules/system/dict.js';
 import { dictApi } from '/@/api/support/dict-api.js';
 
+import { setupAntd } from "epic-designer/dist/ui/antd";
+// 引入epic-designer样式
+import "epic-designer/dist/style.css";
+// 引入antd UI 重置样式
+import "ant-design-vue/dist/reset.css";
+
+
 /*
  * -------------------- ※ 着重 解释说明下main.js的初始化逻辑 begin ※ --------------------
  *
@@ -96,6 +103,10 @@ async function initVue() {
   //全局
   app.config.globalProperties.$antIcons = antIcons;
   app.config.globalProperties.$lodash = lodash;
+
+  // 使用Antd UI
+  setupAntd();
+
   //挂载
   app.mount('#app');
 }

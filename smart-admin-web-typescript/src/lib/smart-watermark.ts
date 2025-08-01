@@ -25,10 +25,10 @@ let smartAdminWaterMarkIntervalId: NodeJS.Timer | null = null;
  * @returns
  */
 
-function setWatermark(id, str) {
+function setWatermark(id:string, str:string) {
     //删掉之前的水印
     if (document.getElementById(WATER_MARK_DOM_ID) !== null) {
-        document.getElementById(WATER_MARK_DOM_ID).remove();
+        document.getElementById(WATER_MARK_DOM_ID)?.remove();
     }
 
     str = str + ' ' + dayjs().format('YYYY-MM-DD HH:mm');
@@ -39,7 +39,7 @@ function setWatermark(id, str) {
     can.width = 400;
     can.height = 200;
 
-    const cans = can.getContext('2d');
+    const cans:any = can.getContext('2d');
     //旋转角度
     cans.rotate((-15 * Math.PI) / 150);
     cans.font = '16px Microsoft JhengHei';
@@ -61,14 +61,20 @@ function setWatermark(id, str) {
     div.style.width = '100%';
     div.style.height = '100%';
     div.style.background = 'url(' + can.toDataURL('image/png') + ') left top repeat';
-    document.getElementById(id).appendChild(div);
+    document.getElementById(id)?.appendChild(div);
 }
 
 const watermark = {
     show: function () {
+        if (document.getElementById(WATER_MARK_DOM_ID) === null) {
+            return;
+        }
         document.getElementById(WATER_MARK_DOM_ID).style.display = 'block';
     },
     hide: function () {
+        if (document.getElementById(WATER_MARK_DOM_ID) === null) {
+            return;
+        }
         document.getElementById(WATER_MARK_DOM_ID).style.display = 'hide';
     },
     // 该方法只允许调用一次

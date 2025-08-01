@@ -13,6 +13,7 @@ import { flowRouters } from './flow/flow';
 import { helpDocRouters } from './support/help-doc';
 import NotFound from '/@/views/system/40X/404.vue';
 import NoPrivilege from '/@/views/system/40X/403.vue';
+import EDesigner from '/@/views/extend/epic/EDesigner.vue';
 
 export const routerArray = [
     ...loginRouters,
@@ -20,5 +21,6 @@ export const routerArray = [
      ...homeRouters, 
     ...helpDocRouters, 
     { path: '/:pathMatch(.*)*', name: '404', component: NotFound },
-    { path: '/403', name: '403', component: NoPrivilege }
+    { path: '/403', name: '403', component: NoPrivilege },
+    { path: '/epicDesigner', meta: { allWin: true }, name: 'epicDesigner', component: EDesigner },
 ];
