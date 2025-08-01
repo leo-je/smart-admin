@@ -11,7 +11,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import { EBuilder, PageSchema } from "epic-designer";
-import { getUrlParams } from '/@/utils/param'
+import { getUrlParams } from '../../../utils/param'
 import { getRequest, postRequest } from '/@/lib/axios';
 
 const ebRef:any = ref(null);
